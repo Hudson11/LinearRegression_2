@@ -3,6 +3,15 @@ import math
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
+
+#
+# A ideia para mudança deste algoritmo é:
+#   -> Usar uma base de dados ou usar dados gravados em arquivos do tipo Text.
+#   -> Usar para fazer para treinar o modelo de preedição usando uma forma de regressão que pode ser Linear ou polinomial.
+#   -> Pesquisa uma forma de receber dados constatemente sem ter que passar no modelo de treinamento
+#   -> Otimizar código, usar boas práticas de programação para diminuir a complexidade do algoritmo.
+#
+
 def normalize(array):
     return (array - array.mean()) / array.std()
 
@@ -41,7 +50,7 @@ tf_price_pred = tf_size_factor * tf_house_size + tf_price_offset
 
 tf_cost = tf.reduce_sum(tf.pow(tf_price_pred - tf_price, 2)) / (2 * num_train_samples)
 
-learning_rate = 0.1 #taxa de aprendizagem, valor ajustável.
+learning_rate = 0.1 #taxa de aprendizagem, valor ajustável. Busca o melhor possível.
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(tf_cost)
 
 init = tf.global_variables_initializer()
@@ -54,7 +63,6 @@ with tf.Session() as sess:
             sess.run(optimizer, feed_dict={tf_house_size: x, tf_price: y})
 
     training_cost = sess.run(tf_cost, feed_dict={tf_house_size: train_house_size_norm, tf_price: train_price_norm})
-    #print('Trained cost=', training_cost, 'size_factor=', sess.run(tf_size_factor), 'price_offset=', sess.run(tf_price_offset), '\n')
 
     def normalize_single_value(value, array):
         return (value - array.mean()) / array.std()
