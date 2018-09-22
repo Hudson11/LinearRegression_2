@@ -16,13 +16,28 @@ def normalize(array):
     return (array - array.mean()) / array.std()
 
 # gerando 160 tamanhos de casas aleatórios
-num_house = 10000
-np.random.seed(42)
-house_size = np.random.randint(low=15, high=45, size=num_house)
+#num_house = 10000
+#np.random.seed(42)
+#house_size = np.random.randint(low=15, high=45, size=num_house)
 
 # gerando o valor das 160 casas aleatórios
-np.random.seed(42)
-house_price = house_size * 1000.0 + np.random.randint(low=200, high=300, size=num_house)
+#np.random.seed(42)
+#house_price = house_size * 1000.0 + np.random.randint(low=200, high=300, size=num_house)
+
+arq1 = open('dados/temperatura.txt', 'r')
+arq2 = open('dados/velocidadeDoAr.txt', 'r')
+
+dado1 = arq1.readlines()
+dado2 = arq2.readlines()
+
+# convert data
+house_size = np.asarray([float(i) for i in dado1])
+house_price = np.asarray([float(i) for i in dado2])
+
+num_house = len(house_size)
+
+print(len(house_size))
+print(len(house_price))
 
 # ake pegaremós 70% dos dados randômicos gerados para treinar o modelo de predição inteligênte
 num_train_samples = math.floor(num_house * 0.7)
@@ -57,7 +72,7 @@ init = tf.global_variables_initializer()
 
 with tf.Session() as sess:
     sess.run(init)
-    num_training_iter = 100
+    num_training_iter = 2000
     for iteration in range(num_training_iter):
         for (x, y) in zip(train_house_size_norm, train_price_norm):
             sess.run(optimizer, feed_dict={tf_house_size: x, tf_price: y})
@@ -70,7 +85,7 @@ with tf.Session() as sess:
     def denormalize(value, array):
         return value * array.std() + array.mean()
 
-    dados =[]
+    dados = []
 
     for (size, price) in zip(test_house_size, test_house_price):
         value = normalize_single_value(size, house_size)
@@ -79,5 +94,11 @@ with tf.Session() as sess:
         dados.append(price_prediction)
         print("House size:",size, " Original price:", price, " Price Prediction:", price_prediction, "Diff:", (price_prediction - price))
 
-    plt.plot(dados)
-    plt.show()
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(test_house_price, color='lightblue', linewidth=3)
+ax.plot(dados, color='darkgreen')
+plt.show()
+
+
