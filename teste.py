@@ -61,7 +61,7 @@ with tf.Session() as sess:
     num_interaction = 100
 
     for iteration in range(num_interaction):
-        for (x,y) in zip(train_num_veloNorm, train_num_tempNorm):
+        for (x, y) in zip(train_num_veloNorm, train_num_tempNorm):
             sess.run(optimizer, feed_dict={tf_num_velocity: x, tf_num_temperature: y})
 
     training_temp = sess.run(tf_predTemp, feed_dict={tf_num_velocity: train_num_veloNorm, tf_num_temperature: train_num_tempNorm})

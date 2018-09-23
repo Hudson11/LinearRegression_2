@@ -65,7 +65,7 @@ tf_price_pred = tf_size_factor * tf_house_size + tf_price_offset
 
 tf_cost = tf.reduce_sum(tf.pow(tf_price_pred - tf_price, 2)) / (2 * num_train_samples)
 
-learning_rate = 0.1 #taxa de aprendizagem, valor ajustável. Busca o melhor possível.
+learning_rate = 0.01 #taxa de aprendizagem, valor ajustável. Busca o melhor possível.
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(tf_cost)
 
 init = tf.global_variables_initializer()
