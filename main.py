@@ -15,14 +15,6 @@ import matplotlib.pyplot as plt
 def normalize(array):
     return (array - array.mean()) / array.std()
 
-# gerando 160 tamanhos de casas aleatórios
-#num_house = 10000
-#np.random.seed(42)
-#house_size = np.random.randint(low=15, high=45, size=num_house)
-
-# gerando o valor das 160 casas aleatórios
-#np.random.seed(42)
-#house_price = house_size * 1000.0 + np.random.randint(low=200, high=300, size=num_house)
 
 arq1 = open('dados/temperatura.txt', 'r')
 arq2 = open('dados/velocidadeDoAr.txt', 'r')

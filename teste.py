@@ -15,7 +15,6 @@ dado2 = arq2.readlines()
 temperature = np.asarray([float(i) for i in dado1])
 velocity = np.asarray([float(i) for i in dado2])
 
-
 # function normalize
 def normalize(array):
     return (array - array.mean()) / array.std()
